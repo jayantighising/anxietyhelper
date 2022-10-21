@@ -4,8 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const mongoose= require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
 
 var app = express();
 
@@ -26,6 +28,10 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+mongoose.connect('mongodb://localhost/AnxietyDB')  //it creates new db if not already there and connect to the db; but it is always better to create a new db.
+.then( () =>console.log('connected to db'))
+.catch( (e)=> console.log('error',e));
 
 // error handler
 app.use(function(err, req, res, next) {
